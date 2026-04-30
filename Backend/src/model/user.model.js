@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 
-let userSchema = mongoose.Schema({
+let userSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: [true , "username already exsist"] ,
