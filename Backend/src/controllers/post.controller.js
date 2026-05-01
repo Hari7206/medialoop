@@ -13,23 +13,7 @@ const imagekit = new ImageKit({
 async function createPostController(req , res){
     console.log(req.body , req.file);
 
- const token = req.cookies.token
 
-    if(!token){
-        res.status(409).json({
-            message: "Token not provided , unauthorized access"
-        })
-    }
-
-    let decoded;
-   try {
-     decoded = jwt.verify(token, process.env.JWT_SECRET);
-} catch (err) {
-    return res.status(401).json({
-        message: "Unauthorized user"
-    });
-}
-    console.log(decoded);
     
 
    const file = await imagekit.files.upload({
@@ -42,7 +26,7 @@ file: await toFile(req.file.buffer, "file"),
     const post = await postModel.create({
         caption: req.body.caption ,
         imgUrl: file.url,
-        user: decoded.id
+        user: req.user.id
     })
 
     res.status(201).json({
@@ -52,24 +36,9 @@ file: await toFile(req.file.buffer, "file"),
 }
 
 async function getPostController(req , res ) {
-    let token = req.cookies.token
 
-    if (!token) {
-    return res.status(401).json({
-        message: "Token not provided"
-    });
-}
 
-let decoded;
-    try {
-        decoded = jwt.verify(token , process.env.JWT_SECRET)
-    } catch (err) {
-        return res.status(401).json({
-            message: "Invalid Token"
-        })
-    }
-
-        let userId = decoded.id
+        let userId = req.user.id
     const posts = await postModel.find({
             user: userId
     })
@@ -84,24 +53,9 @@ let decoded;
 
 
 async function getPostDetailsController(req , res) {
-            const token = req.cookies.token
+      
 
-            if(!token){
-                return res.status(401).json({
-                    message: "token not provided"
-                })
-            }
-
-            let decoded 
-            try {
-                decoded = jwt.verify(token , process.env.JWT_SECRET)
-            } catch (error) {
-               return res.status(401).json({
-                    message: "invalid token"
-                })
-            }
-
-            const userId = decoded.id
+            const userId = req.user.id
             const postId = req.params.postId
 
 
