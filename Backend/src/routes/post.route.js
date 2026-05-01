@@ -10,4 +10,10 @@ postRouter.post("/" ,  upload.single('image') , postController.createPostControl
 postRouter.get("/"  , postController.getPostController)
 
 
+
+// now here we will create the one controller for the getting the id detial of post and we will check if that the authorized is requesting for the post or not 
+
+postRouter.get("/details/:postId" , postController.getPostDetailsController)
+
+
 module.exports = postRouter
