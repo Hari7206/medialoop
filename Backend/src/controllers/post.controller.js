@@ -51,6 +51,37 @@ file: await toFile(req.file.buffer, "file"),
     })
 }
 
+async function getPostController(req , res ) {
+    let token = req.cookies.token
+
+    if (!token) {
+    return res.status(401).json({
+        message: "Token not provided"
+    });
+}
+
+let decoded;
+    try {
+        decoded = jwt.verify(token , process.env.JWT_SECRET)
+    } catch (err) {
+        return res.status(401).json({
+            message: "Invalid Token"
+        })
+    }
+
+        let userId = decoded.id
+    const posts = await postModel.findOne({
+            user: userId
+    })
+
+
+    res.status(200).json({
+        message: "post created successfully" ,
+        posts
+    })
+}
+
 module.exports = {
-    createPostController
+    createPostController ,
+    getPostController
 }
