@@ -17,4 +17,16 @@ postRouter.get("/"  , identifyUsers ,postController.getPostController)
 postRouter.get("/details/:postId" ,  identifyUsers  , postController.getPostDetailsController)
 
 
+/*
+@route Post /api/posts/like/:postid
+@description so we will like the post accroding to our search post id 
+*/
+postRouter.post("/like/:postId" ,  identifyUsers  , postController.likePostController)
+
+
+
+
+
+
+
 module.exports = postRouter
