@@ -1,30 +1,43 @@
 import React from 'react'
 import { useState } from 'react'
 import axios from "axios"
-import { Link } from 'react-router'
+import { Link, Navigate, useNavigate } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
 import "../styles/form.scss"
 function Login() {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const { handleLogin, loading } = useAuth()
+    const Navigate = useNavigate()
 
-async function handleSubmit(e) {
-    e.preventDefault()
 
-    axios.post("http://localhost:3000/api/auth/login", {
-        username,
-        password
-    }, {
-        withCredentials: true
-    })
-    .then(res => {
-        console.log("LOGIN SUCCESS:", res.data)
-    })
-    .catch(err => {
-        console.log("LOGIN FAILED:", err.response?.data || err.message)
-    })
-}
+    if (loading) {
+        return (
+            <div className="loading-screen">
+                <h1 className="loading-inline">
+                     <span className="spinner small"></span>
+                </h1>
+            </div>
+        )
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        handleLogin(username, password)
+            .then(res => {
+                console.log(res);
+                Navigate("/")
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+    }
+
     return (
 
         <main>
@@ -35,13 +48,13 @@ async function handleSubmit(e) {
                 >
 
                     <input
-                        onInput={(e) => {setUsername(e.target.value)}}
+                        onInput={(e) => { setUsername(e.target.value) }}
                         type="text"
                         name='username'
                         placeholder='Enter your username'
                     />
                     <input type="text"
-                        onInput={(e) => {setPassword(e.target.value)}}
+                        onInput={(e) => { setPassword(e.target.value) }}
                         name='password'
                         placeholder='Enter your password'
                     />
