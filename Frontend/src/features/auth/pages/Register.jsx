@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { Link  , useNavigate} from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
 
@@ -8,9 +8,32 @@ const Register = () => {
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
 
+    
+      const { handleRegister , loading } = useAuth()
+      const navigate = useNavigate()
+
+      
+        if (loading) {
+        return (
+            <div className="loading-screen">
+                <h1 className="loading-inline">
+                     <span className="spinner small"></span>
+                </h1>
+            </div>
+        )
+    }
+
+
+
     async function handleSubmit(e){
         e.preventDefault()
-
+        handleRegister(username , email , password)
+        .then(res => {
+                navigate("/")
+        })
+       .catch(err =>{
+        console.log(err);
+       })
     }
 
     return (
@@ -19,17 +42,17 @@ const Register = () => {
                 <h1>Register</h1>
                 <form onSubmit={handleSubmit} >
                     <input
-                        onInput={(e) => { setUsername(e.target.value) }}
+                        onChange={(e) => { setUsername(e.target.value) }}
                         type="text"
                         name='username'
                         placeholder='Enter username' />
                     <input
-                        onInput={(e) => { setEmail(e.target.value) }}
+                        onChange={(e) => { setEmail(e.target.value) }}
                         type="text"
                         name='email'
                         placeholder='Enter email' />
                     <input
-                        onInput={(e) => { setPassword(e.target.value) }}
+                        onChange={(e) => { setPassword(e.target.value) }}
                         type="password"
                         name='password'
                         placeholder='Enter password' />

@@ -8,6 +8,9 @@ const postRouter = express.Router()
 
 
 postRouter.post("/" ,  upload.single('image') ,   identifyUsers , postController.createPostController)
+
+
+
 postRouter.get("/"  , identifyUsers ,postController.getPostController)
 
 
@@ -25,7 +28,12 @@ postRouter.post("/like/:postId" ,  identifyUsers  , postController.likePostContr
 
 
 
+/*
+@route get /api/posts/feed
+@description so here we will get all the post in the feed 
+*/
 
+postRouter.get("/feed" , identifyUsers , postController.getFeedController)
 
 
 

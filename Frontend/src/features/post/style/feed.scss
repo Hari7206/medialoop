@@ -1,0 +1,58 @@
+.feed-page{
+    color: black;
+    disply: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+
+
+    .feed{
+        max-width: 300px;
+        width: 100%;
+
+        .posts{
+            width: 100%;
+
+
+
+            .post {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                background: rgb(180, 180, 184);
+                padding-inline: 0.5rem;
+                padding-block: 0.5rem;
+                .users{
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+
+
+                        .img-wrapper{
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            border: 2px solid rgba(255, 0, 0, 0);
+                            background: conic-gradient(rgb(255, 153, 0) , rgb(128, 0, 122)  , rgb(255, 153, 0)   ) border-box;
+                        }
+
+                    img{
+                        width: 2rem;
+                        aspect-ratio: 1/1;
+                        border-radius: 50%;
+                    }
+                }
+
+             > img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+            }
+        }
+
+    }
+
+}
