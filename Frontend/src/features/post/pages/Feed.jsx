@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import "../style/feed.scss"
 import Post from '../components/Post'
 import { usePost } from '../hook/usePost';
+import Nav from '../../shared/components/Nav';
 
 function Feed() {
 
@@ -16,7 +17,10 @@ function Feed() {
   if (loading || !feed) 
     return <p>Loading...</p>;
   return (
-    <main className='feed-page'>
+  <div > 
+    
+      <Nav/>
+     <main className='feed-page'>
       <div className="feed">
         <div className="posts">
 
@@ -30,7 +34,8 @@ function Feed() {
           ))}
         </div>
       </div>
-    </main>
+    </main></div>
+
   )
 }
 

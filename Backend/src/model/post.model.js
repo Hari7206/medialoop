@@ -17,7 +17,7 @@ let postSchema = new  mongoose.Schema({
          ref: "users",
          required: [true , " users is reqired to make an post"]
     }
-})
+}, { timestamps: true }) 
 
 let postModel = mongoose.model("posts" , postSchema)
 

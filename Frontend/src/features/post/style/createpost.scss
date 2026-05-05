@@ -1,0 +1,19 @@
+.post-image-label {
+  display: inline-block;
+  padding: 15px 16px;
+  background: white;
+  color: black;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+
+  &:hover {
+    background: #0077cc;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}

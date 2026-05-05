@@ -25,6 +25,7 @@ postRouter.get("/details/:postId" ,  identifyUsers  , postController.getPostDeta
 @description so we will like the post accroding to our search post id 
 */
 postRouter.post("/like/:postId" ,  identifyUsers  , postController.likePostController)
+postRouter.post("/unlike/:postId" ,  identifyUsers  , postController.unLikePostController)
 
 
 
