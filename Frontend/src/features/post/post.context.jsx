@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { getFeed , likePost , unlikePost} from "./services/post.api";
+import { getFeed , likePost , savedPost, unlikePost , getSavedPostsApi } from "./services/post.api";
 import { createPost } from "./services/post.api";
 
 export const PostContext = createContext()
@@ -9,6 +9,7 @@ export const PostContextProvider = ({children}) =>  {
     const [loading, setLoading] = useState(false)
     const [post, setPost] = useState([])
     const [feed, setFeed] = useState([])
+     const [savedPosts, setSavedPosts] = useState([]);
 
 
     const fetchFeed = async () => {
@@ -41,7 +42,18 @@ export const PostContextProvider = ({children}) =>  {
     await fetchFeed()
 }
 
+    
+const handleSaved = async (postId) => {
+    setLoading(true)
+    await savedPost(postId)
+    await fetchFeed()
+    setLoading(false)
+}
 
+const handlefetchSavedPosts = async () => {
+    const data = await getSavedPostsApi();
+    setSavedPosts(data.savedPosts);
+};
     return (
         <PostContext.Provider
             value={{
@@ -51,7 +63,10 @@ export const PostContextProvider = ({children}) =>  {
                 fetchFeed ,
                 handleCreatePost ,
                 handleLike ,
-                handleUnLike
+                handleUnLike ,
+                handleSaved ,
+                savedPosts,
+                handlefetchSavedPosts
             }}
         >
             {children}

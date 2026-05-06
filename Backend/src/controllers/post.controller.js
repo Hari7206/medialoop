@@ -1,5 +1,6 @@
 const postModel = require("../model/post.model")
 const likeModel = require("../model/like.model")
+const saveModel = require("../model/save.model")
 const ImageKit = require("@imagekit/nodejs")
 const { toFile } = require("@imagekit/nodejs")
 const jwt = require("jsonwebtoken")
@@ -119,43 +120,50 @@ async function likePostController(req, res) {
 }
 
 
-async function  unLikePostController(req , res) {
+async function unLikePostController(req, res) {
     let username = req.user.username
     let postId = req.params.postId
 
     const isliked = await likeModel.findOne({
-        post: postId ,
+        post: postId,
         user: username
     })
-    if(!isliked){
+    if (!isliked) {
         return res.status(400).json({
             message: " did not liked the post "
         })
     }
 
-await likeModel.findOneAndDelete({_id: isliked._id})
+    await likeModel.findOneAndDelete({ _id: isliked._id })
 
 
-res.status(200).json({
-    message: "post is disliked"
-})
+    res.status(200).json({
+        message: "post is disliked"
+    })
 
 }
 
 async function getFeedController(req, res) {
 
     const user = req.user
-    let posts = await Promise.all((await postModel.find().populate("user", "-password") .sort({ _id: -1}).lean())
+    let posts = await Promise.all((await postModel.find().populate("user", "-password").sort({ _id: -1 }).lean())
         .map(async (post) => {
             const isLiked = await likeModel.findOne({
-              user: user.username,
+                user: user.username,
                 post: post._id
             })
-
+            const isSaved = await saveModel.findOne({
+                user: user.id ,
+                post: post._id
+            }
+            )
             post.isLiked = !!isLiked
+            post.isSaved = !!isSaved
 
-            return post
+            return post 
         }))
+     
+        
 
 
     res.status(200).json({
@@ -165,12 +173,61 @@ async function getFeedController(req, res) {
 }
 
 
+async function savePostController(req, res) {
+    const user = req.user.id
+    const postId = req.params.postId
+
+    const existing = await saveModel.findOne({
+        user: user,
+        post: postId
+    });
+
+    if (existing) {
+
+       await saveModel.findByIdAndDelete(existing._id)
+        return res.status(200).json({ message: "Post unsaved" });
+    } else {
+
+        const save = await saveModel.create({
+            user: user,
+            post: postId
+        });
+        return res.status(200).json({
+            message: "Post saved",
+            save
+        });
+    }
+}
+
+async function getSavePostController(req, res) {
+
+    const user = req.user.id;
+
+    const savedPosts = await saveModel
+        .find({ user: user })
+        .populate({
+            path: "post",
+            populate: {
+                path: "user",
+                select: "-password"
+            }
+        })
+        .sort({ createdAt: -1 });
+
+    res.status(200).json({
+        message: "Saved posts fetched",
+        savedPosts
+    });
+}
+
 
 module.exports = {
     createPostController,
     getPostController,
     getPostDetailsController,
     likePostController,
-    getFeedController ,
-    unLikePostController
+    getFeedController,
+    unLikePostController,
+    savePostController,
+     getSavePostController
 }

@@ -38,4 +38,20 @@ postRouter.get("/feed" , identifyUsers , postController.getFeedController)
 
 
 
+
+
+/*
+@route get /api/posts/save
+@description so here we will save the post 
+*/
+postRouter.post("/save/:postId" , identifyUsers , postController.savePostController)
+
+
+/*
+@route get /api/posts/savec
+@description so here we will save the post 
+*/
+
+postRouter.get("/saved" , identifyUsers , postController.getSavePostController)
+
 module.exports = postRouter

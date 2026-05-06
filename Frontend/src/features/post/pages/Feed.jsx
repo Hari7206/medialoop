@@ -8,7 +8,7 @@ import Nav from '../../shared/components/Nav';
 function Feed() {
 
   
-  const { feed, loading, fetchFeed , handleLike , handleUnLike } = usePost();
+  const { feed, loading, fetchFeed , handleLike , handleUnLike  , handleSaved} = usePost();
 
   useEffect(() => {
     fetchFeed();
@@ -32,6 +32,7 @@ function Feed() {
               post={item}
               handleLike={handleLike}
               handleUnLike={handleUnLike}
+              handleSaved={handleSaved}
             />
           ))}
         </div>
