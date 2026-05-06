@@ -1,10 +1,10 @@
 import React from 'react'
-import { usePost } from '../hook/usePost';
 
-const Post = ({ user , post }) => {
+
+const Post = ({ user , post ,handleLike, handleUnLike }) => {
 
  
-const { handleLike, handleUnLike } = usePost();
+
 
 
   return (
