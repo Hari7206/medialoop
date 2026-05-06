@@ -4,6 +4,7 @@ import Register from "./features/auth/pages/Register"
 import Feed from "./features/post/pages/Feed"
 import CreatePost from "./features/post/pages/CreatePost"
 import Saved from "./features/post/pages/Saved"
+import Profile from "./features/post/pages/Profile"
 
 
 
@@ -16,6 +17,7 @@ function Approutes(){
     <Route path="/register" element={<Register/>}/>
     <Route path="/create-post" element={<CreatePost/>}/>
     <Route path="/saved-post" element={<Saved/>}/>
+    <Route path="/profile" element={<Profile/>}/>
      </Routes>
     </BrowserRouter>
   )
